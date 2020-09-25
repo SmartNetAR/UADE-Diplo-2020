@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+    api:
+        image: node:10-alpine
+        working_dir: /app
+        volumes:
+            - myvol1:/app
+        ports:
+            - 8000:3000
+        command: npm start
