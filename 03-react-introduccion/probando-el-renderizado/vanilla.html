@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <style type="text/css">
+      #app {
+        font-family: sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #app h1 {
+        text-align: center;
+      }
+      #app button {
+        display: block;
+        width: 12em;
+      }
+    </style>
+
+    <title>Las bases de React</title>
+  </head>
+  <body>
+
+    <div id="app"></div>
+
+    <script type="text/javascript">
+
+      let count = 0;
+
+      const app = document.getElementById('app');
+
+      const title = document.createElement('h1');
+      title.innerHTML = 'Contador con Vanilla JS';
+
+      const button = document.createElement('button');
+      button.innerHTML = count;
+      button.addEventListener('click', function() {
+        count++;
+        button.innerHTML = count;
+        render();
+      })
+
+      function render () {
+        app.innerHTML = '';
+        app.appendChild(title);
+        app.appendChild(button);
+      }
+
+      render();
+      
+    </script>
+  </body>
+</html>
