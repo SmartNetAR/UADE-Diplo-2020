@@ -36,31 +36,46 @@
     <script type="text/babel">
 
       class App extends React.Component {
+
         constructor(props) {
           super(props)
 
           this.state = {
-            count: 0
+            count: 0,
+            boolean: false,
           }
 
         }
 
         handleClick = () => {
-          this.setState(state => ({
-            count: state.count + 1
-          }))
+          this.setState( {
+            count: this.state.count + 1
+          } )
+        }
+
+        cambiarBoolean = () => {
+          this.setState( {
+            boolean: !this.state.boolean
+          } )
         }
 
         render() {
           return (
             <div>
               <h1>Contador con React</h1>
-              <button onClick={ this.handleClick }>{ this.state.count }</button>
+              <button onClick={ this.handleClick }>
+                { this.state.count }
+              </button>
+
+              <h3>{ this.state.count }</h3>
+              
+              <button onClick={ this.cambiarBoolean } >
+                { this.state.boolean ? "Hola" : "Mundo" }
+              </button>
             </div>
           )
         }
       }
-
       ReactDOM.render(<App />, document.getElementById('app'))
       
     </script>
