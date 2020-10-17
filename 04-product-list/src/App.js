@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import ListaProductos from './components/ListaProductos';
 import Persona from './components/Persona';
+import { getAllProductsApi } from './services/productService';
 
 class App extends React.Component {
 
@@ -11,12 +12,7 @@ class App extends React.Component {
           showPersona: false,
           producto: "",
           cantidad: 0,
-          productos: [ 
-            { id: 1, nombre: "monitor", cantidad: 100},
-            { id: 2, nombre: "teclado", cantidad: 150}, 
-            { id: 3, nombre: "mouse", cantidad: 4}, 
-            { id: 4, nombre: "impresora", cantidad: 0}
-        ]
+          productos: []
       }
     }
 
@@ -81,11 +77,26 @@ class App extends React.Component {
 
     }
 
+    componentDidMount() {
+        this.getApiProducts();
+    }
+
+    
+    getApiProducts = async () => {
+        const products = await getAllProductsApi();
+
+        if ( Array.isArray(products?.data) ) {
+            this.setState({
+                productos: [...products.data]
+            })
+
+        }
+    }
+
     render() {
       return (
         <div className="App">
           <header className="App-header">
-
             <p>Producto</p>
             <input
                 type="text"

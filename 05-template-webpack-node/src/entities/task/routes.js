@@ -1,15 +1,10 @@
 import express from 'express';
+import { getAllTasks, getTaskById } from './controller';
 
 const router = express.Router();
 
-router.get( '/', ( req, res ) => { res.json( { tasks: [] } ) });
-router.get( '/:id', ( req, res ) => {
-    res.json({
-        id: req.params.id,
-        title: "Título de la tarea",
-        description: "Descripción de la tarea"
-    })
-} )
+router.get( '/', getAllTasks );
+router.get( '/:id', getTaskById );
 
 
 export default router;

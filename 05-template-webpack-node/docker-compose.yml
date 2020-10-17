@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+    node:
+        container_name: tasks_node
+        image: node:12
+        command: npm start
+        working_dir: /app
+        environment:
+            - DB_HOST=tasks_db
+            - DB_NAME=tasks
+            - DB_USER=postgres
+            - DB_PASSWORD=secret
+            - NODE_ENV=development
+        ports:
+            - "5000:5000"
+        depends_on: 
+            - db
+        volumes:
+            - ./:/app
+        networks: 
+            - tasksnet
+
+    db:
+        container_name: tasks_db
+        ports: 
+            - "5432:5432"
+        networks: 
+            - tasksnet
+        environment: 
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=tasks
+            - POSTGRES_PASSWORD=secret
+        image: postgres:9.6-alpine
+        volumes:
+            - data:/var/lib/postgresql/data
+
+networks: 
+    tasksnet:
+        driver: "bridge"
+        
+volumes: 
+    data: {}
