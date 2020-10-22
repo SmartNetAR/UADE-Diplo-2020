@@ -10,6 +10,9 @@ const app = express();
 app.use(cors());
 app.use( morgan('dev') );
 
+app.use( express.urlencoded( { extended:true } ) ) ;
+app.use( express.json() ) ;
+
 router( app );
 
 const port = process.env.NODE_PORT;

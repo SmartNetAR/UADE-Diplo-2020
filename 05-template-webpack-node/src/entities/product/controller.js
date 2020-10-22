@@ -1,10 +1,39 @@
+import knex from '../../database/knex';
 
 export const getProductsList = async ( req, res ) => {
-    res.json({ data: [ 
-        { id: 1, nombre: "monitor", cantidad: 100},
-        { id: 2, nombre: "teclado", cantidad: 150}, 
-        { id: 3, nombre: "mouse", cantidad: 4}, 
-        { id: 4, nombre: "impresora", cantidad: 0},
-        { id: 4, nombre: "dato del back", cantidad: 1000}
-    ] });
+
+    const products = await knex( 'products' );
+
+    res.json({ data: products });
 }
+
+export const getProductById = async ( req, res ) => {
+
+    const { id } = req.params;
+
+    const product = await knex( 'products' )
+        .where( 'id', id ).first();
+
+    if ( !product ) {
+        return res.status(404).json({ message: "not found" })
+    }
+
+    res.json({ data: product })
+
+}
+
+export const addProduct = async ( req, res ) => {
+
+    const payload = req.body;
+
+    const customer = await knex( 'products' )
+        .returning('id')
+        .insert( {
+        nombre: payload.nombre,
+        cantidad: payload.cantidad
+    } ) ;
+
+    res.status(201).json({ data: customer[0] })
+
+}
+

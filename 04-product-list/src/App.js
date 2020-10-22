@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import ListaProductos from './components/ListaProductos';
 import Persona from './components/Persona';
-import { getAllProductsApi } from './services/productService';
+import { addProductAPI, getAllProductsApi } from './services/productService';
 
 class App extends React.Component {
 
@@ -63,17 +63,21 @@ class App extends React.Component {
 
     }
 
-    agregarProducto = () => {
+    agregarProducto = async () => {
 
         const productoNuevo = {
-           id: this.state.productos.length + 1 ,
            nombre: this.state.producto,
            cantidad: parseInt( this.state.cantidad )
         }
 
+        await addProductAPI( productoNuevo );
+
         this.setState({
-          productos: [...this.state.productos, productoNuevo ]
+            producto: "",
+            cantidad: 0
         })
+
+        this.getApiProducts();
 
     }
 
