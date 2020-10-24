@@ -22,9 +22,9 @@ class ListaProductos extends React.Component
                     <li key={producto.id}>{producto.nombre + ' ' + producto.cantidad}</li>
                 )}
             </ul>
-            <ul>
+            {/* <ul>
                 { this.ofertas(listaProductos) }
-            </ul>
+            </ul> */}
         </> )
     }
 }

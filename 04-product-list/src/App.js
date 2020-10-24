@@ -2,7 +2,10 @@ import React from 'react';
 import './App.css';
 import ListaProductos from './components/ListaProductos';
 import Persona from './components/Persona';
-import { addProductAPI, getAllProductsApi } from './services/productService';
+import { addProductAPI, getAllProductsApi, mockAllProducts } from './services/productService';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import FormAddProduct from './components/FormAddProduct';
+import Card from './components/Card';
 
 class App extends React.Component {
 
@@ -70,6 +73,8 @@ class App extends React.Component {
            cantidad: parseInt( this.state.cantidad )
         }
 
+        alert( JSON.stringify( {producto: this.state.producto, cantidad: this.state.cantidad}) )
+
         await addProductAPI( productoNuevo );
 
         this.setState({
@@ -87,7 +92,8 @@ class App extends React.Component {
 
     
     getApiProducts = async () => {
-        const products = await getAllProductsApi();
+        const products = await mockAllProducts();
+        // const products = await getAllProductsApi();
 
         if ( Array.isArray(products?.data) ) {
             this.setState({
@@ -101,28 +107,21 @@ class App extends React.Component {
       return (
         <div className="App">
           <header className="App-header">
-            <p>Producto</p>
-            <input
-                type="text"
-                onChange={this.handleChange}
-                name="producto"
-                value={this.state.producto}
+            <FormAddProduct
+              alEscribir={ this.handleChange } 
+              nombreProducto={this.state.producto}
+              cantidadProducto={this.state.cantidad}
+              alClickear={ this.agregarProducto }
             />
 
-            <p>Cantidad</p>
-            <input type="number"
-                onChange={this.handleChange} 
-                name="cantidad" 
-                value={this.state.cantidad} 
-            />
-
-            <br></br>
-
-            <button onClick={this.agregarProducto}> Agregar </button>
-            
             <ListaProductos
                 listaProductos={this.state.productos}
             />
+
+            <Card 
+              formProductName={this.state.producto}
+            />
+
             <button onClick={this.handleClick} >Toggle</button>
             <Persona persona={this.persona} isShow={this.state.showPersona}/>
           </header>

@@ -1,5 +1,14 @@
 const url = "http://localhost:5000/products";
 
+export const mockAllProducts = async () => {
+  return ({
+    data: [
+      { nombre: "test", cantidad: 230 },
+      { nombre: "dos", cantidad: 230 },
+      { nombre: "tres", cantidad: 230 },
+    ]
+  })
+}
 export const getAllProductsApi = async () => {
 
     try {
