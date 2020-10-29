@@ -1,0 +1,7 @@
+[
+    {"id":1,"nombre":"monitor","cantidad":100},
+    {"id":2,"nombre":"teclado","cantidad":150},
+    {"id":3,"nombre":"mouse","cantidad":4},
+    {"id":4,"nombre":"impresora","cantidad":0},
+    {"id":5,"nombre":"promesa","cantidad":888}
+]
