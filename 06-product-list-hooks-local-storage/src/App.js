@@ -1,125 +1,135 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListaProductos from './components/ListaProductos';
 import FormAddProduct from './components/FormAddProduct';
 
-class App extends React.Component {
+function App () {
+    const [productos, setProductos] = useState([]);
+    const [producto, setProducto] = useState({
+        nombre: "",
+        cantidad: 0
+    });
 
-    constructor(prop) {
-      super(prop);
-      this.productNameInput = React.createRef();
 
-      this.testInput = React.createRef(); // null
+    //   productNameInput = React.createRef();
 
-      this.state = {
-          producto: "",
-          cantidad: 0,
-          productos: []
-      }
-    }
+    //   testInput = React.createRef(); // null
 
-    handleChange = ( evento ) => {
+
+
+    const handleChange = ( evento ) => {
       const {name, value} = evento.target ;
-                      //key:  value
-      this.setState({ [name]: value });
+
+        setProducto({
+            ...producto,
+            [name]: value
+        })
 
     }
 
-    almacenarEnLocalStorage = (listaDeProductos) => {
+    const almacenarEnLocalStorage = (listaDeProductos) => {
         console.log(listaDeProductos)
 
         localStorage.setItem("productos", JSON.stringify( listaDeProductos ))
     }
 
-    agregarProducto = async ( event ) => {
+    const agregarProducto = async ( event ) => {
         event.preventDefault()
 
         const productoNuevo = {
-            id: this.state.productos.length + 1 ,
-            nombre: this.state.producto,
-            cantidad: parseInt( this.state.cantidad )
+            id: productos.length + 1 ,
+            nombre: producto.nombre,
+            cantidad: parseInt( producto.cantidad )
         }
 
-        const nuevaListaProductos = [...this.state.productos, productoNuevo ]
+        const nuevaListaProductos = [...productos, productoNuevo ]
 
-        this.setState({
-            productos: nuevaListaProductos
-        })
+        setProductos(nuevaListaProductos);
 
-        this.almacenarEnLocalStorage(nuevaListaProductos);
+        almacenarEnLocalStorage(nuevaListaProductos);
 
-        this.setState({
-            producto: "",
-            cantidad: 0
-        })
+        setProducto({nombre:"", cantidad:0});
 
-        this.productNameInput.current.focus();
+        // productNameInput.current.focus();
     }
 
-    leerJson = async () => {
+    const leerJson = async () => {
         const resp = await fetch('/products.json');
         const data = await resp.json();
         
+        setProductos(data)
 
-        this.setState({
-            productos: data
-        })
     }
 
+    useEffect(() => {
+        console.log("se montó el componente")
+    }, [])
+
+    useEffect(() => {
+
+
+        const productosStorage = JSON.parse( localStorage.getItem("productos") )
+
+        if ( productosStorage ) {
+
+            setProductos( productosStorage )
+            
+        } else {
+
+            leerJson();
+
+        }
+
+        // testInput.current.focus();
+        
+
+    }, [])
+
+
+/* 
     componentDidMount() {
 
         const productosStorage = JSON.parse( localStorage.getItem("productos") )
 
         if ( productosStorage ) {
 
-            this.setState({
+            setState({
                 productos: productosStorage
             })
             
         } else {
 
-            this.leerJson();
+            leerJson();
 
         }
 
-
-        // fetch('/products.json')
-        //     .then( resp => {
-        //         return resp.json()
-        //     } )
-        //     .then( data => {
-        //         console.log(data)
-        //     } )
+        testInput.current.focus();
 
 
-
-        this.testInput.current.focus();
     }
+ */
 
-    render() {
       return (
         <div className="App">
           <header className="App-header">
             <FormAddProduct
-              alEscribir={ this.handleChange } 
-              nombreProducto={this.state.producto}
-              cantidadProducto={this.state.cantidad}
-              alClickear={ this.agregarProducto }
-              productNameInput={ this.productNameInput }
+              alEscribir={ handleChange } 
+              nombreProducto={producto.nombre}
+              cantidadProducto={producto.cantidad}
+              alClickear={ agregarProducto }
+            //   productNameInput={ productNameInput }
             />
 
             <ListaProductos
-                listaProductos={this.state.productos}
+                listaProductos={productos}
             />
 
-            <input name="test" ref={this.testInput} />
+            {/* <input name="test" ref={testInput} /> */}
 
           </header>
         </div>
       );
-
-    }
 }
 
 export default App;

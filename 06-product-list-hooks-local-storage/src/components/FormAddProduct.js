@@ -9,7 +9,7 @@ function FormAddProduct({alEscribir, alClickear, nombreProducto, cantidadProduct
                 <input
                     type="text"
                     onChange={alEscribir}
-                    name="producto"
+                    name="nombre"
                     value={nombreProducto}
                     ref={productNameInput}
                 />
