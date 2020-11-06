@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import {Redirect} from 'react-router-dom';
 import Nav from '../components/Nav';
 
 function Login() {
@@ -6,8 +7,7 @@ function Login() {
     const urlHeroku = 'https://redis-auth.herokuapp.com'
     const url = urlHeroku;
 
-
-
+    const [isLogged, setIsLogged] = useState(false);
 
   const login = async () =>
   {
@@ -31,6 +31,7 @@ function Login() {
       localStorage.setItem('user', JSON.stringify(data.user) );
 
       alert(`Bienvenido ${data.user.fullname}`);
+      setIsLogged(true);
       console.log(data);
     } else if ( response.status === 400 )
     {
@@ -41,6 +42,7 @@ function Login() {
 
     return (
         <>
+            { isLogged && <Redirect to="/about" />}
             <Nav />
             <div className="App">
                 <header className="App-header">
