@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {Redirect} from 'react-router-dom';
 import Nav from '../components/Nav';
 
-function Login() {
+function Login({onLogin}) {
     // const urlLocal = 'http://localhost:8089'
     const urlHeroku = 'https://redis-auth.herokuapp.com'
     const url = urlHeroku;
@@ -32,7 +32,7 @@ function Login() {
 
       alert(`Bienvenido ${data.user.fullname}`);
       setIsLogged(true);
-      console.log(data);
+      onLogin(data.user);
     } else if ( response.status === 400 )
     {
       console.log("Error de usuario y contraseña");
