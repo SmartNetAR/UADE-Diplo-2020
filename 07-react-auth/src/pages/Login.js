@@ -2,8 +2,11 @@ import React, { useState } from 'react'
 import {Redirect} from 'react-router-dom';
 import Nav from '../components/Nav';
 
-function Login() {
+function Login({onLogin}) {
     // const urlLocal = 'http://localhost:8089'
+    const [formData, setFormData] = useState({
+      email: "fernando.miguel.bustamante@gmail.com", password: "12345678910#"
+    });
     const urlHeroku = 'https://redis-auth.herokuapp.com'
     const url = urlHeroku;
 
@@ -11,15 +14,10 @@ function Login() {
 
   const login = async () =>
   {
-    const user = {
-      email: "fernando.miguel.bustamante@gmail.com",
-      password: "12345678910#"
-    }
-
     const options = {
       method: 'POST',
       headers: { 'Content-Type' : 'application/json' },
-      body: JSON.stringify(user),
+      body: JSON.stringify(formData),
     }
 
     const response = await fetch( `${url}/auth/login`, options )
@@ -30,12 +28,11 @@ function Login() {
       localStorage.setItem('token', data.access_token );
       localStorage.setItem('user', JSON.stringify(data.user) );
 
-      alert(`Bienvenido ${data.user.fullname}`);
+      onLogin(data.user);
       setIsLogged(true);
-      console.log(data);
     } else if ( response.status === 400 )
     {
-      console.log("Error de usuario y contraseña");
+      alert("Error de usuario y contraseña");
     }
 
   }
@@ -46,6 +43,9 @@ function Login() {
             <Nav />
             <div className="App">
                 <header className="App-header">
+                    <input placeholder="email" type="email" onChange={(e)=> setFormData({...formData, email: e.target.value})} value={formData.email}/>
+                    <br/>
+                    <input placeholder="password" type="password" onChange={(e)=> setFormData({...formData, password: e.target.value})} value={formData.password} />
                     <button onClick={login} >Login</button>
                 </header>
             </div>

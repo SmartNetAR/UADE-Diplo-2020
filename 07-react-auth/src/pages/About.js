@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Nav from '../components/Nav';
+import UserContext from '../components/UserContext';
 
 function About() {
     // const urlLocal = 'http://localhost:8089'
     const urlHeroku = 'https://redis-auth.herokuapp.com'
     const url = urlHeroku;
+    const userData = useContext(UserContext);
 
     const [ message, setMessage ] = useState('');
     const [ loading, setLoading ] = useState(false);
@@ -49,6 +51,7 @@ function About() {
         <>
             <Nav />
             <h2>About</h2>
+            <p>{userData?.fullname}</p>
             <div>{ message }</div>
         </>
     )
