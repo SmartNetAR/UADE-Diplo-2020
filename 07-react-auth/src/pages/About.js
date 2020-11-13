@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Nav from '../components/Nav';
-import UserContext from '../components/UserContext';
+import { UserContext } from '../context/UserContext';
 
 function About() {
     // const urlLocal = 'http://localhost:8089'
@@ -51,7 +51,7 @@ function About() {
         <>
             <Nav />
             <h2>About</h2>
-            <p>{userData?.fullname}</p>
+            <p>{userData?.user?.fullname}</p>
             <div>{ message }</div>
         </>
     )

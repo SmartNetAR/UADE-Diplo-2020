@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import {Redirect} from 'react-router-dom';
 import Nav from '../components/Nav';
+import { UserContext } from '../context/UserContext';
 
-function Login({onLogin}) {
+function Login() {
+    const userData = useContext(UserContext);
     // const urlLocal = 'http://localhost:8089'
     const [formData, setFormData] = useState({
       email: "fernando.miguel.bustamante@gmail.com", password: "12345678910#"
@@ -28,7 +30,7 @@ function Login({onLogin}) {
       localStorage.setItem('token', data.access_token );
       localStorage.setItem('user', JSON.stringify(data.user) );
 
-      onLogin(data.user);
+      userData.setUser(data.user)
       setIsLogged(true);
     } else if ( response.status === 400 )
     {

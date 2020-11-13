@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
-import UserContext from './UserContext'
+import { UserContext } from '../context/UserContext'
 
 export default function Avatar() {
     const userData = useContext(UserContext);
     return (<>
-        <span>{userData?.fullname}</span>
+        <span>{userData?.user?.fullname}</span>
     </>)
 }
